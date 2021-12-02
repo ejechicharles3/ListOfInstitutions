@@ -6,8 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace ListOfInstitutions.DTO
-{
-    
+{ 
     public class CreateCountryDTO 
     {
 
@@ -22,7 +21,7 @@ namespace ListOfInstitutions.DTO
     public class CountryDTO : CreateCountryDTO
     {
         public int Id { get; set; }
-        public IList<School> Schools { get; set; }
+        public IList<SchoolDTO> Schools { get; set; }
 
     }
 

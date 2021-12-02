@@ -1,6 +1,8 @@
 using AutoMapper;
 using ListOfInstitutions.Configurations;
+using ListOfInstitutions.IRepository;
 using ListOfInstitutions.Models;
+using ListOfInstitutions.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -42,11 +44,18 @@ namespace ListOfInstitutions
             });
 
             services.AddAutoMapper(typeof(MapperInitializer));
+            
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ListOfInstitutions", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "List Of Institutions", Version = "v1" });
             });
+
+            services.AddControllers().AddNewtonsoftJson(op =>
+            op.SerializerSettings.ReferenceLoopHandling = 
+            Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
 
             services.AddControllers();
 
@@ -74,6 +83,10 @@ namespace ListOfInstitutions
 
             app.UseEndpoints(endpoints =>
             {
+                //endpoints.MapControllerRoute(
+                //    name:"default",
+                //    pattern:"{controller=Home}/{action=Index}/{id?}"
+                //    );
                 endpoints.MapControllers();
             });
         }
